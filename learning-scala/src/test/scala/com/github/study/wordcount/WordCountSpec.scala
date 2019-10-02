@@ -1,5 +1,6 @@
 package com.github.study.wordcount
 
+import com.github.study.Daily1.WordCount
 import org.scalatest._
 
 import scala.collection.mutable.Stack
