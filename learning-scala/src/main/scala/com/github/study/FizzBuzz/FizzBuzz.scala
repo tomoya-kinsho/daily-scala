@@ -7,16 +7,16 @@ object FizzBuzz {
   def main(args: Array[String]): Unit = {
     // for式
     // foreach
-//    for (i <- 1 to 100)
-//      if(i % 3 == 0) {
-//        println("Fizz")
-//      }  else if(i % 5 == 0) {
-//        println("Buzz")
-//      } else if(i % 15 == 0) {
-//        println("FizzBuzz")
-//      } else {
-//        println(i)
-//      }
+    for (i <- 1 to 100)
+      if(i % 3 == 0) {
+        println("Fizz")
+      }  else if(i % 5 == 0) {
+        println("Buzz")
+      } else if(i % 15 == 0) {
+        println("FizzBuzz")
+      } else {
+        println(i)
+      }
 
     // ただcollectionを処理したかったら、
     // map flatMapで書き換えれる。
@@ -54,6 +54,86 @@ object FizzBuzz {
     println(userInfo2)
 
 
+    // case pattern matchを使う
+    def calcurateFizzBuzz(num: Int): String = {
+      num match {
+        case n if n % 15 == 0 => "FizzBuzz"
+        case n if n % 3 == 0 => "Fizz"
+        case n if n % 5 == 0 => "Buzz"
+        case n => n.toString
+      }
+
+    }
+
+    val list = 1 to 100
+
+    for(
+      i <- list
+    ) {
+      println(calcurateFizzBuzz(i))
+    }
+
+    // 一行でかく
+    // toListにする意味ないよね？
+    (1 to 100).toList.foreach(num => if(num % 15 == 0) println("FizzBuzz") else if(num % 3 == 0) println("Fizz") else if(num % 5 == 0) println("Buzz") else println(num.toString))
+
+    // (1 to 100).toList.foreach(num => num match { case n if n % 15 == 0 => println("FizzBuzz") case n if n % 3 == 0 => println("Fizz") case n if n % 5 == 0 => println("Buzz") case n => n.toString })
+
+    // ２の倍数は除外する
+    val list2: List[Int] = (1 to 100).toList
+
+    def fizzBuzz2(num: Int): String = {
+      num match {
+        case n if n % 15 == 0 => "FizzBuzz"
+        case n if n % 3 == 0 => "Fizz"
+        case n if n % 5 == 0 => "Buzz"
+        case n => n.toString
+      }
+    }
+
+    for(
+      // filterをかける
+      i <- list2 if i % 2 != 0
+    ) {
+      println(fizzBuzz2(i))
+    }
+
+
+    // 一行ずつ表示をやめる
+
+    val list3: List[Int] = (1 to 100).toList
+
+    def fizzBuzz3(list: List[Int]): List[String] = {
+      list3.map(num => num match {
+        case n if n % 15 == 0 => "FizzBuzz"
+        case n if n % 3 == 0 => "Fizz"
+        case n if n % 5 == 0 => "Buzz"
+        case n => n.toString
+      })
+    }
+
+    println(fizzBuzz3(list3).mkString(","))
+
+
+
+    // fizz buzz fizzbuzzになっていない数字の合計値を出す
+
+    val list4: List[Int] = (1 to 100).toList
+
+    def fizzBuzz4(list: List[Int]): List[String] = {
+      list.map(num => num match {
+        case n if n % 15 == 0 => "FizzBuzz"
+        case n if n % 3 == 0 => "Fizz"
+        case n if n % 5 == 0 => "Buzz"
+        case n => n.toString
+      })
+    }
+    val strList = fizzBuzz4(list4)
+
+    strList.map(s => {
+      if(s.contains("zz")) 0
+      else s.toInt
+    }).sum
 
   }
 }
