@@ -35,4 +35,13 @@ class Fibo {
 
     loop(0, 0, 1)
   }
+
+  def fib3(n: Int, sum: Int, stack: Int): Int = {
+    case 0 => sum
+      // sumは、前々回の結果
+      // stackは、の前回の計算結果
+    case _ => fib3(n - 1, stack, sum + stack)
+  }
+
+  def fib(n: Int) = fib3(n, 0, 1)
 }
