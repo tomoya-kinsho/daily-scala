@@ -3,8 +3,8 @@ package com.github.study.nnp
 import scala.annotation.tailrec
 
 /**
- * Created by tamaki on 2015/02/08.
- */
+  * Created by tamaki on 2015/02/08.
+  */
 trait NNP10 {
 
   // P01 (*) Find the last element of a list.
@@ -49,34 +49,52 @@ trait NNP10 {
 
   def flatten(nested: List[Any]): List[Any] = {
     nested match {
-        // xは、head => A
-        // xsは、tail => List[A]
-        // ::: Listの連結
-        // :: Listの最初に要素を追加　
+      // xは、head => A
+      // xsは、tail => List[A]
+      // ::: Listの連結
+      // :: Listの最初に要素を追加　
       case (x: List[_]) :: (xs: List[_]) => flatten(x) ::: flatten(xs)
       case y :: (ys: List[_])            => y :: flatten(ys)
-      case Nil                => Nil
+      case Nil                           => Nil
     }
   }
 
   val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
   def compress(list: List[Symbol]): List[Symbol] = {
-    // TODO: よーわからん 
+    @tailrec
+    def loop(n: Int, acc: List[Symbol]): List[Symbol] = {
+      val symbol = list.apply(n)
+      if(n == list.length -1) {
+        acc
+      } else if(acc.contains(symbol)) {
+        loop(n + 1, acc)
+      } else {
+        loop(n + 1, acc :+ symbol )
+      }
+    }
+    loop(0, List.empty)
+  }
+
+  val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+  def compress(list: List[Symbol]): List[Symbol] = {
+    def loop(n: Int, acc: List[Symbol]): List[Symbol] = {
+      val symbol = list.apply(n)
+      if(n == list.length -1) {
+        acc
+      } else if(n == 0) {
+        loop(n + 1, acc :+ symbol)
+      } else if(list.apply(n) == list.apply(n - 1)) {
+        loop(n + 1, acc)
+      } else {
+        loop(n + 1, acc :+ symbol)
+      }
+    }
+    loop(0, List.empty)
   }
 
   // {a -> [a, a, a, a], b -> [b, b, b,]}
   def pack(list: List[Symbol]): List[List[Symbol]] = {
-    def loop(n: Int, acc: List[List[Symbol]]): List[List[Symbol]] = {
-      val symbol = list.apply(n)
-      if(n == list.length -1) {
-        acc
-      } else if(isContain(n, acc)) {
 
-      }
-    }
-    def isContain(n: Symbol, acc: List[List[Symbol]]) = {
-      acc
-    }
   }
 
   def encode(list: List[Symbol]): List[(Int, Symbol)] = {
