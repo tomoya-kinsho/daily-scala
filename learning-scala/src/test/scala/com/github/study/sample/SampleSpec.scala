@@ -8,7 +8,7 @@ import org.scalatest._
  */
 class SampleSpec extends FunSpec with Matchers {
 
-  describe("A Sample") {
+  ignore("A Sample") {
     it("returns hello message with specified word") {
       val sample = new Sample
       val word = "すから"
@@ -16,7 +16,7 @@ class SampleSpec extends FunSpec with Matchers {
     }
   }
 
-  describe("A Stack") {
+  ignore("A Stack") {
     it("should pop values in last-in-first-out order") {
       val stack = new Stack[Int]
       stack.push(1)

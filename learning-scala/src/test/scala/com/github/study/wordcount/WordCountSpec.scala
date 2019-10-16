@@ -10,7 +10,7 @@ import scala.collection.mutable.Stack
  */
 class WordCountSpec extends FunSpec with Matchers {
 
-  describe("A WordCount") {
+  ignore("A WordCount") {
     it("count each fruit") {
       val lines = List("apple banana", "orange apple mango", "kiwi papaya orange","mango orange muscat apple")
       val target = new WordCount

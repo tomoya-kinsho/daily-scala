@@ -7,7 +7,7 @@ import org.scalatest._
  */
 class BTreeSpec extends FunSpec with Matchers {
 
-  describe("BTree") {
+  ignore("BTree") {
 
     describe("Create BTree with Leaf and Branch combination") {
       val bTree1 = BTree(Leaf(1))
