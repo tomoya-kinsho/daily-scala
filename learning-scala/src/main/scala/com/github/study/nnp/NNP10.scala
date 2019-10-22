@@ -78,32 +78,31 @@ trait NNP10 {
   // val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
   def compress(list: List[Symbol]): List[Symbol] = {
     @tailrec
-    def loop(n: Int, acc: List[Symbol], rest: List[Symbol]): List[Symbol] = {
+    def loop(acc: List[Symbol], rest: List[Symbol]): List[Symbol] = {
       rest match {
-        case _ if n == list.length - 1        => acc
-        case head :: tail if n == 0           => loop(n + 1, acc :+ head, tail)
-        case head :: tail if head == acc.last => loop(n + 1, acc, tail)
-        case head :: tail                     => loop(n + 1, acc :+ head, tail)
+        case Nil                              => acc
+        case head :: tail if acc.isEmpty      => loop(acc :+ head, tail)
+        case head :: tail if head == acc.last => loop(acc, tail)
+        case head :: tail                     => loop(acc :+ head, tail)
       }
     }
-    loop(0, List.empty, list)
+    loop(List(), list)
   }
 
   // val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
   def pack(list: List[Symbol]): List[List[Symbol]] = {
     @tailrec
-    def loop(n: Int,
-             acc: List[List[Symbol]],
+    def loop(acc: List[List[Symbol]],
              rest: List[Symbol]): List[List[Symbol]] = {
       rest match {
-        case _ if n == list.length  => acc
-        case head :: tail if n == 0 => loop(n + 1, acc :+ List(head), tail)
+        case Nil                    => acc
+        case head :: tail if acc.isEmpty => loop(acc :+ List(head), tail)
         case head :: tail if head == acc.last.last =>
-          loop(n + 1, acc.updated(acc.length - 1, acc.last :+ head), tail)
-        case head :: tail => loop(n + 1, acc :+ List(head), tail)
+          loop(acc.updated(acc.length - 1, acc.last :+ head), tail)
+        case head :: tail => loop(acc :+ List(head), tail)
       }
     }
-    loop(0, List(), list)
+    loop(List(), list)
   }
 
   def encode(list: List[Symbol]): List[(Int, Symbol)] = {
@@ -112,4 +111,21 @@ trait NNP10 {
     symbolList.map(list => (list.length, list.head))
   }
 
+  // val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+  def encodeModified(list: List[Symbol]): List[Any] = {
+    val symbolList: List[(Int, Symbol)] = encode(list)
+    //   List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+    // NOTE: 中身をそのままmatchさせるときは、matchは必要ない
+    symbolList.map {
+      case (1, s) => s
+      case (n, s) => (n, s)
+    }
+  }
+
+  def decode(list: List[(Int, Symbol)]): List[Symbol] = {
+    list.flatMap{
+      case (1, s) => List(s)
+      case (n, s) => for(i <- (1 to n).toList) yield s
+    }
+  }
 }

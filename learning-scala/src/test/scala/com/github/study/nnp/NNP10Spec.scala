@@ -84,5 +84,17 @@ class NNP10Spec extends FunSpec with Matchers with NNP10 {
       }
     }
 
+    describe("P11") {
+      it(" Modified run-length encoding.") {
+        encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should be (List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e)))
+      }
+    }
+
+    describe("P12") {
+      it("Decode a run-length encoded list.") {
+        decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e))) should be (List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+      }
+    }
+
   }
 }
