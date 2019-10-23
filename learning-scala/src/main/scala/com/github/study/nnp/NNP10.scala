@@ -90,14 +90,17 @@ trait NNP10 {
   }
 
   // val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+  // spanメソッドを使う
   def pack(list: List[Symbol]): List[List[Symbol]] = {
     @tailrec
     def loop(acc: List[List[Symbol]],
              rest: List[Symbol]): List[List[Symbol]] = {
       rest match {
-        case Nil                    => acc
+        case Nil                         => acc
         case head :: tail if acc.isEmpty => loop(acc :+ List(head), tail)
+        // spanメソッドを使うようにリファクタ
         case head :: tail if head == acc.last.last =>
+          // updated使うのではなく、Listの末尾に要素を追加するようにリファクタ
           loop(acc.updated(acc.length - 1, acc.last :+ head), tail)
         case head :: tail => loop(acc :+ List(head), tail)
       }
@@ -123,9 +126,9 @@ trait NNP10 {
   }
 
   def decode(list: List[(Int, Symbol)]): List[Symbol] = {
-    list.flatMap{
+    list.flatMap {
       case (1, s) => List(s)
-      case (n, s) => for(i <- (1 to n).toList) yield s
+      case (n, s) => for (i <- (1 to n).toList) yield s
     }
   }
 }
